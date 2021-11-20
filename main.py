@@ -66,7 +66,7 @@ async def send_error(ctx, error, full_error):
     title="An Error Occured Executing A Task.", 
     description=f"```py\n{full_error}\n{error}\n```"
   )
-  return await ctx.respond(embed=embed)
+  return await ctx.send(embed=embed)
 
 @app.route('/')
 async def index(request):
@@ -86,7 +86,7 @@ async def login(ctx):
     embed = discord.Embed(
       title="Please Enter a Valid Exchange Code", url="https://rebrand.ly/authcode"
     )
-    await ctx.respond(embed=embed)
+    await ctx.send(embed=embed)
 
     def check(msg):
       return msg.author == ctx.author and len(msg.content) == 32
