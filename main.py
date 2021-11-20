@@ -24,8 +24,9 @@ class web:
         data=data,
         headers=headers
       ) as r:
-        data = await r.json()
-        return data
+        data = await r.text()
+        return json.loads(data)
+      
 class epicgames:
   async def get_access_token(code: str):
     data = await web.post(
