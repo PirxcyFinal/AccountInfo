@@ -76,7 +76,7 @@ async def index(request):
 async def on_ready():
   await app.create_server(
     host='0.0.0.0',
-    port=os.environ['MADEBYPIRXCY'],
+    port=os.environ['PORT'],
     return_asyncio_server=True,
   )
 
