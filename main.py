@@ -20,9 +20,9 @@ class web:
     async with aiohttp.ClientSession() as session:
       async with session.request(
         method="POST",        
-        url,
+        url=url,
         data=data,
-        headers=headers,
+        headers=headers
       ) as r:
         return r.json()
 
