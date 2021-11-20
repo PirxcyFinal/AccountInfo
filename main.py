@@ -1,10 +1,14 @@
 import discord
+import os
+import sanic
 import json
 import aiohttp
 import traceback
 
 from discord.ext import commands
-
+app = sanic.Sanic(
+  "AccountInfo"
+)
 bot = commands.Bot(
   command_prefix="!"
 )
@@ -63,6 +67,18 @@ async def send_error(ctx, error, full_error):
     description=f"```py\n{full_error}\n{error}\n```"
   )
   return await ctx.respond(embed=embed)
+
+@app.route('/')
+async def index(request):
+  return sanic.response.json({'status': 'online'})
+
+@bot.event
+async def on_ready():
+  await app.create_server(
+    host='0.0.0.0',
+    port=8000,
+    return_asyncio_server=True,
+  )
 
 @bot.command()
 async def login(ctx):
