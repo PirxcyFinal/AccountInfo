@@ -19,8 +19,8 @@ class web:
   async def post(url, data=None, headers=None):
     async with aiohttp.ClientSession() as session:
       async with session.request(
+        method="POST",        
         url,
-        method="POST",
         data=data,
         headers=headers,
       ) as r:
