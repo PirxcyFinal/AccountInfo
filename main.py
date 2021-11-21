@@ -93,7 +93,7 @@ async def on_ready():
   )
 
 @bot.command()
-async def backend():
+async def backend(ctx):
   status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
   embed=discord.Embed(
     title="Backend Status.", 
