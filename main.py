@@ -88,9 +88,8 @@ class backend:
     return i
     
 async def check_backend():
-  status_ = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
-  status = json.dumps(status_)
-  if status == {"status":"Online"}:
+  status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
+  if status {"status":"Online"} in status:
     return status
   else:
     return False
