@@ -4,6 +4,7 @@ import sanic
 import json
 import aiohttp
 import traceback
+import asyncio
 
 from discord.ext import commands
 
@@ -188,10 +189,12 @@ To Remove Auths Excecute !logout and Your Account Will Be Safe
 ```
     """)
     first = await ctx.send(embed=embed)
+    await asyncio.sleep(3)
     embed = discord.Embed(
       title="Please Enter a Valid Exchange Code", 
       url="https://rebrand.ly/authcode"
     )
+    await first.edit(embed=embed)
     def check(msg):
       return msg.author == ctx.author and len(msg.content) == 32
 
