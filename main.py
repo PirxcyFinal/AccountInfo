@@ -27,7 +27,8 @@ class web:
       ) as r:
         data = await r.text()
         try:
-          return json.loads(data)
+          jsonn = await r.json()
+          return jsonn
         except:
           return data
       
@@ -42,7 +43,8 @@ class web:
       ) as r:
         data = await r.text()
         try:
-          return json.loads(data)   
+          jsonn = await r.json()
+          return jsonn
         except:
           return data
     
