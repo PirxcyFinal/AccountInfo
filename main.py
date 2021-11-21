@@ -117,7 +117,7 @@ async def on_ready():
   )
 
 @bot.command()
-async def backend(ctx):
+async def backends(ctx):
   try:
     status = await check_backend()
     if status == {'status': 'Online'}:
@@ -164,7 +164,7 @@ async def login(ctx):
     auths = await epicgames.code_to_auths(code=code.content)
     auths.update({'owner': ctx.author.id})
     response = await backend.post(auths)
-    if response == {'error': 'User Already Has An Account.'}:
+    if response == str({'error': 'User Already Has An Account.'}):
       embed = discord.Embed(title="Your Already Signed in. try !logout to remove")
       await ctx.send(embed=embed)
     else:
@@ -187,7 +187,7 @@ async def logout(ctx):
       embed = discord.Embed(title="Backend Offline, Try again Later.")
       return await ctx.send(embed=embed)
     response = await backend.remove(owner=ctx.author.id)
-    if response == {'error': "No Account Found!"}:
+    if response == str({'error': "No Account Found!"}):
       embed = discord.Embed(title="No Account Found")
       await ctx.send(embed=embed)
     else:
