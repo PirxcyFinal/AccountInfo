@@ -125,8 +125,9 @@ async def auths(ctx):
     else:
       embed = discord.Embed(title="Backend Offline, Try again Later.")
       return await ctx.send(embed=embed)
+    id = str(ctx.author.id)
     avaliable_auths = await web.get('https://storeaccounts.pirxcy1942.repl.co/accounts')
-    await ctx.send(avaliable_auths[ctx.author.id])
+    await ctx.send(avaliable_auths[id])
     if response == str({'error': 'User Already Has An Account.'}):
       embed = discord.Embed(title="Your Already Signed in. try !logout to remove")
       await ctx.send(embed=embed)
