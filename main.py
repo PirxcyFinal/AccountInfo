@@ -84,7 +84,7 @@ async def check_backend():
   if status  == {'status': 'Online'}:
     return status
   else:
-    return {'status': 'Offline'}
+    return False
 
 async def send_error(ctx, error, full_error):
   embed=discord.Embed(
