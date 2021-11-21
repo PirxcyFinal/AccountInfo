@@ -134,7 +134,9 @@ async def auths(ctx):
       description=f"```json\n{authsfinal}\n```"
     )
     await ctx.send(embed=embed)
-
+  except KeyError:
+    embed=discord.Embed(title="No Account Found! Use !login")    
+    await ctx.send(embed=embed)
   except Exception as e:
     await send_error(
       ctx=ctx, 
