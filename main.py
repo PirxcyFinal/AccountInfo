@@ -96,7 +96,7 @@ async def on_ready():
 async def backend(ctx):
   try:
     status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
-    if status == {"status":"online"}:
+    if status == '{"status":"online"}':
       embed=discord.Embed(
         title="Backend Status.", 
         description=f"```json\n{status}\n```"
