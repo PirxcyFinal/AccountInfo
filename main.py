@@ -16,12 +16,13 @@ bot = commands.Bot(
 filename = "accounts.json"
 
 class web:
-  async def post(url: str, data=None, headers=None):
+  async def post(url: str, data=None, headers=None, json=None):
     async with aiohttp.ClientSession() as session:
       async with session.request(
         method="POST",        
         url=url,
         data=data,
+        json=json,
         headers=headers
       ) as r:
         data = await r.text()
@@ -30,12 +31,13 @@ class web:
         except:
           return data
       
-  async def get(url: str, data=None, headers=None):
+  async def get(url: str, data=None, headers=None, json=None):
     async with aiohttp.ClientSession() as session:
       async with session.request(
         method="GET",        
         url=url,
         data=data,
+        json=json,
         headers=headers
       ) as r:
         data = await r.text()
@@ -69,18 +71,22 @@ class epicgames:
     auths.pop("created")
     return auths
 
-def add_to_auths(info):
-  with open(filename) as f:
-    file = json.load(f)
-  file.append(info)
-  indented = json.dumps(
-    file, 
-    indent=2
-  )
-  with open(filename) as fp:
-    json.dump(indented, fp)
-  return
-
+class backend:
+  async def post(auths):
+    i = await web.post(
+      url="https://storeaccounts.pirxcy1942.repl.co/add",
+      json=auths,
+      headers={'Authorization': os.environ['Authorization']}
+    )
+    return i
+  async def remove(owner):
+    i = await web.post(
+      url="https://storeaccounts.pirxcy1942.repl.co/remove",
+      json={'owner': owner},
+      headers={'Authorization': os.environ['Authorization']}
+    )
+    return i
+    
 async def check_backend():
   status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
   if status  == {'status': 'Online'}:
@@ -153,8 +159,14 @@ async def login(ctx):
     )
 
     auths = await epicgames.code_to_auths(code=code.content)
-    add_to_auths(auths)
-
+    auths.update({'owner': ctx.author.id})
+    response = await backend.post(auths)
+    if response == {'error': 'User Already Has An Account.'}:
+      embed = discord.Embed(title="Your Already Signed in. try !logout to remove")
+      await ctx.send(embed=embed)
+    else:
+      embed = discord.Embed(title="Success, To Remove Auths Execute !logout")
+      await ctx.send(embed=embed)
   except Exception as e:
     await send_error(
       ctx=ctx, 
@@ -162,4 +174,27 @@ async def login(ctx):
       full_error=traceback.format_exc()
     )
 
+@bot.command()
+async def logout(ctx):
+  try:
+    status = await check_backend()
+    if status == {'status': 'Online'}:
+      pass
+    else:
+      embed = discord.Embed(title="Backend Offline, Try again Later.")
+      return await ctx.send(embed=embed)
+    response = await backend.remove(owner=ctx.author.id)
+    if response == {'error': "No Account Found!"}:
+      embed = discord.Embed(title="No Account Found")
+      await ctx.send(embed=embed)
+    else:
+      embed = discord.Embed(title="Removed Successfully")
+      return await ctx.send(embed=embed)
+  except Exception as e:
+    await send_error(
+      ctx=ctx, 
+      error=e, 
+      full_error=traceback.format_exc()
+    )
+    
 bot.run(os.environ['MADEBYPIRXCY'])
