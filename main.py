@@ -177,10 +177,22 @@ async def login(ctx):
       embed = discord.Embed(title="Backend Offline, Try again Later.")
       return await ctx.send(embed=embed)
     embed = discord.Embed(
-      title="Please Enter a Valid Exchange Code", url="https://rebrand.ly/authcode"
-    )
-    await ctx.send(embed=embed)
+      title="Please Read Before Logging in.", 
+      description="""
+```
+When Signing in With This Bot Your Auths Will Be Public!
+(Others Can Hack It)
 
+I will soon add database integration, but currently your bots are held on a public REPL
+
+To Remove Auths Excecute !logout and Your Account Will Be Safe
+```
+    """)
+    first = await ctx.send(embed=embed)
+    embed = discord.Embed(
+      title="Please Enter a Valid Exchange Code", 
+      url="https://rebrand.ly/authcode"
+    )
     def check(msg):
       return msg.author == ctx.author and len(msg.content) == 32
 
@@ -192,7 +204,7 @@ async def login(ctx):
     auths = await epicgames.code_to_auths(code=code.content)
     auths.update({'owner': ctx.author.id})
     response = await backend.post(auths)
-    if response == str({'error': 'User Already Has An Account.'}):
+    if response == str({'error': 'User Already Has An Account.'}) or response == {'error': 'User Already Has An Account.'}:
       embed = discord.Embed(title="Your Already Signed in. try !logout to remove")
       await ctx.send(embed=embed)
     else:
@@ -215,7 +227,7 @@ async def logout(ctx):
       embed = discord.Embed(title="Backend Offline, Try again Later.")
       return await ctx.send(embed=embed)
     response = await backend.remove(owner=ctx.author.id)
-    if response == str({'error': "No Account Found!"}):
+    if response == str({'error': "No Account Found!"}) or response == {'error': "No Account Found!"}:
       embed = discord.Embed(title="No Account Found")
       await ctx.send(embed=embed)
     else:
