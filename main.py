@@ -130,7 +130,7 @@ async def auths(ctx):
     avaliable_auths = await web.get('https://storeaccounts.pirxcy1942.repl.co/accounts')
     authsfinal = json.dumps(avaliable_auths[id], indent=2)
     embed=discord.Embed(
-      title="An Error Occured Executing A Task.", 
+      title="Auths Viewer.", 
       description=f"```json\n{authsfinal}\n```"
     )
     await ctx.send(embed=embed)
