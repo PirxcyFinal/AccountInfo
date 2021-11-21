@@ -79,6 +79,13 @@ def add_to_auths(info):
     json.dump(indented, fp)
   return
 
+async def check_backend():
+  status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
+  if status  == {'status': 'Online'}:
+    return status
+  else:
+    return {'status': 'Offline'}
+
 async def send_error(ctx, error, full_error):
   embed=discord.Embed(
     title="An Error Occured Executing A Task.", 
@@ -101,8 +108,7 @@ async def on_ready():
 @bot.command()
 async def backend(ctx):
   try:
-    status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
-    print(status)
+    status = await check_backend()
     if status == {'status': 'Online'}:
       embed=discord.Embed(
         title="Backend Status.", 
@@ -125,6 +131,11 @@ async def backend(ctx):
 @bot.command()
 async def login(ctx):
   try:
+    status = await check_backend()
+    if status == {'status': 'Online'}:
+      continue
+    else:
+      embed = discord.Embed(title="Backend Offline, Try again Later.")
     embed = discord.Embed(
       title="Please Enter a Valid Exchange Code", url="https://rebrand.ly/authcode"
     )
