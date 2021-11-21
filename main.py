@@ -25,7 +25,10 @@ class web:
         headers=headers
       ) as r:
         data = await r.text()
-        return json.loads(data)
+        try:
+          return json.loads(data)
+        except:
+          return data
       
   async def get(url: str, data=None, headers=None):
     async with aiohttp.ClientSession() as session:
@@ -36,7 +39,10 @@ class web:
         headers=headers
       ) as r:
         data = await r.text()
-        return json.loads(data)      
+        try:
+          return json.loads(data)   
+        except:
+          return data
     
 class epicgames:
   async def get_access_token(code: str):
