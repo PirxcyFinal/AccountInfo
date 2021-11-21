@@ -228,7 +228,7 @@ async def logout(ctx):
     else:
       embed = discord.Embed(title="Backend Offline, Try again Later.")
       return await ctx.send(embed=embed)
-    response = await backend.remove(owner=ctx.author.id)
+    response = await backend.remove(owner=str(ctx.author.id))
     if response == str({'error': "No Account Found!"}) or response == {'error': "No Account Found!"}:
       embed = discord.Embed(title="No Account Found")
       await ctx.send(embed=embed)
