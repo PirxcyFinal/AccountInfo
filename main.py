@@ -58,7 +58,7 @@ class epicgames:
   
   async def code_to_auths(code: str):
     data = await epicgames.code_to_data(code=code)
-    auths = web.post(
+    auths = await web.post(
       f"https://account-public-service-prod.ol.epicgames.com/account/api/public/account/{data['account_id']}/deviceAuth",
       headers={
         "Authorization": f"Bearer {data['access_token']}"
