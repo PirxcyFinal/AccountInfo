@@ -94,12 +94,26 @@ async def on_ready():
 
 @bot.command()
 async def backend(ctx):
-  status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
-  embed=discord.Embed(
-    title="Backend Status.", 
-    description=f"```json\n{status}\n```"
-  )
-  await ctx.send(embed=embed)
+  try:
+    status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
+    if status == {"status":"online"}:
+      embed=discord.Embed(
+        title="Backend Status.", 
+        description=f"```json\n{status}\n```"
+      )
+      await ctx.send(embed=embed)
+    else:
+      embed=discord.Embed(
+        title="Backend Status.", 
+        description=f"```diff\n- Offine\n```"
+      )
+      await ctx.send(embed=embed)
+  except Exception as e:
+    await send_error(
+      ctx=ctx, 
+      error=e, 
+      full_error=traceback.format_exc()
+    )
   
 @bot.command()
 async def login(ctx):
