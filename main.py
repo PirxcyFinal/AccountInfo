@@ -16,7 +16,7 @@ bot = commands.Bot(
 filename = "accounts.json"
 
 class web:
-  async def post(url, data=None, headers=None):
+  async def post(url: str, data=None, headers=None):
     async with aiohttp.ClientSession() as session:
       async with session.request(
         method="POST",        
@@ -27,6 +27,17 @@ class web:
         data = await r.text()
         return json.loads(data)
       
+  async def get(url: str, data=None, headers=None):
+    async with aiohttp.ClientSession() as session:
+      async with session.request(
+        method="GET",        
+        url=url,
+        data=data,
+        headers=headers
+      ) as r:
+        data = await r.text()
+        return json.loads(data)      
+    
 class epicgames:
   async def get_access_token(code: str):
     data = await web.post(
@@ -81,6 +92,15 @@ async def on_ready():
     return_asyncio_server=True,
   )
 
+@bot.command()
+async def backend():
+  status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
+   embed=discord.Embed(
+    title="Backend Status.", 
+    description=f"```json\n{status}\n```"
+  )
+  await ctx.send(embed=embed)
+  
 @bot.command()
 async def login(ctx):
   try:
