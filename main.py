@@ -140,6 +140,7 @@ async def backend(ctx):
 async def login(ctx):
   try:
     status = await check_backend()
+    print(status)
     if status == {'status': 'Online'}:
       pass
     else:
