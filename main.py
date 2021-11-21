@@ -45,7 +45,7 @@ class web:
           return data
     
 class epicgames:
-  async def get_access_token(code: str):
+  async def code_to_data(code: str):
     data = await web.post(
       url="https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token",
       data=f"grant_type=authorization_code&code={code}",
@@ -54,10 +54,10 @@ class epicgames:
         "Authorization": "basic MzQ0NmNkNzI2OTRjNGE0NDg1ZDgxYjc3YWRiYjIxNDE6OTIwOWQ0YTVlMjVhNDU3ZmI5YjA3NDg5ZDMxM2I0MWE=",
       }
     )
-    return data['access_token']
+    return str(data['access_token'])
   
   async def code_to_auths(code: str):
-    data = await epicgames.get_access_token(code=code)
+    data = await epicgames.code_to_data(code=code)
     auths = web.post(
       f"https://account-public-service-prod.ol.epicgames.com/account/api/public/account/{data['account_id']}/deviceAuth",
       headers={
