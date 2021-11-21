@@ -133,7 +133,7 @@ async def login(ctx):
   try:
     status = await check_backend()
     if status == {'status': 'Online'}:
-      continue
+      pass
     else:
       embed = discord.Embed(title="Backend Offline, Try again Later.")
     embed = discord.Embed(
