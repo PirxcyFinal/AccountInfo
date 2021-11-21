@@ -82,7 +82,7 @@ async def send_error(ctx, error, full_error):
 
 @app.route('/')
 async def index(request):
-  return sanic.response.json({'status': 'online'})
+  return sanic.response.json({'status': 'Online'})
 
 @bot.event
 async def on_ready():
@@ -97,7 +97,7 @@ async def backend(ctx):
   try:
     status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
     print(status)
-    if status == '{"status":"online"}':
+    if status == {'status': 'Online'}:
       embed=discord.Embed(
         title="Backend Status.", 
         description=f"```json\n{status}\n```"
