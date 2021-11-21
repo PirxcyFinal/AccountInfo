@@ -64,6 +64,7 @@ class epicgames:
         "Authorization": f"Bearer {data['access_token']}"
       }
     )
+    print(auths)
     auths.pop("created")
     return auths
 
