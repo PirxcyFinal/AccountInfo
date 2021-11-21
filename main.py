@@ -88,12 +88,12 @@ class backend:
     return i
     
 async def check_backend():
-  status = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
-  print(status)
+  status_ = await web.get(url='https://StoreAccounts.pirxcy1942.repl.co')
+  status = json.dumps(status)
   if status == {"status":"Online"}:
     return status
   else:
-    return status
+    return False
 
 async def send_error(ctx, error, full_error):
   embed=discord.Embed(
