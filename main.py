@@ -54,7 +54,7 @@ class epicgames:
         "Authorization": "basic MzQ0NmNkNzI2OTRjNGE0NDg1ZDgxYjc3YWRiYjIxNDE6OTIwOWQ0YTVlMjVhNDU3ZmI5YjA3NDg5ZDMxM2I0MWE=",
       }
     )
-    return str(data['access_token'])
+    return data
   
   async def code_to_auths(code: str):
     data = await epicgames.code_to_data(code=code)
