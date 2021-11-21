@@ -61,6 +61,7 @@ class epicgames:
     auths = await web.post(
       f"https://account-public-service-prod.ol.epicgames.com/account/api/public/account/{data['account_id']}/deviceAuth",
       headers={
+        "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": f"Bearer {data['access_token']}"
       }
     )
