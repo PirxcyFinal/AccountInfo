@@ -128,7 +128,12 @@ async def auths(ctx):
     
     id = str(ctx.author.id)
     avaliable_auths = await web.get('https://storeaccounts.pirxcy1942.repl.co/accounts')
-    await ctx.send(avaliable_auths[id])
+    authsfinal = json.dumps(avaliable_auths[id], indent=2)
+    embed=discord.Embed(
+      title="An Error Occured Executing A Task.", 
+      description=f"```json\n{authsfinal}\n```"
+    )
+    await ctx.send(embed=embed)
 
   except Exception as e:
     await send_error(
