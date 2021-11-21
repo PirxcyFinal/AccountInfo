@@ -6,14 +6,13 @@ import aiohttp
 import traceback
 
 from discord.ext import commands
+
 app = sanic.Sanic(
   "AccountInfo"
 )
 bot = commands.Bot(
   command_prefix="!"
 )
-
-filename = "accounts.json"
 
 class web:
   async def post(url: str, data=None, headers=None, json=None):
