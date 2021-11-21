@@ -136,6 +136,7 @@ async def login(ctx):
       pass
     else:
       embed = discord.Embed(title="Backend Offline, Try again Later.")
+      return await ctx.send(embed=embed)
     embed = discord.Embed(
       title="Please Enter a Valid Exchange Code", url="https://rebrand.ly/authcode"
     )
